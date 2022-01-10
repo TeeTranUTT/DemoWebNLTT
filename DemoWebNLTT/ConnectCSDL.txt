@@ -1,0 +1,1 @@
+Scaffold-DbContext "Server=DESKTOP-0DT0F8D\\SQLEXPRESS2017; Database=TTDL;User ID=sa;Password=0969605418;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models

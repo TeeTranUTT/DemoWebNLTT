@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#time').html('Refreshed at : ' + new Date().toLocaleTimeString());
+            BindChart();
+            // Refresh at every 2 Seconds.
+            setInterval(function () {
+                $('#time').html('Refreshed at : ' + new Date().toLocaleTimeString());
+                BindChart();
+            }, 2000);
+        });
+
+        function BindChart() {
+            google.charts.load('current', { 'packages': ['corechart'] });
+            google.charts.setOnLoadCallback(drawChart);
+        }
+        function drawChart() {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetChartData", "Home")',
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    var options = {
+                        title: 'Biểu Đồ Thu Thập Dữ Liệu',
+                        legend: { position: 'bottom' }
+                    };
+                    var data = google.visualization.arrayToDataTable(r);
+                    var chart = new google.visualization.LineChart($("#chart")[0]);
+                    chart.draw(data, options);
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <div id="chart" style="height: 370px; width: 100%;"></div>
+</body>
+</html>
